@@ -1,17 +1,20 @@
 import sys
 from PySide6 import QtWidgets, QtGui, QtCore
-from QlikAPI import resource_path
+from functions import resource_path
 
 
 def confirm_dialog(self, message):
     msg = QtWidgets.QMessageBox(self)
-    msg.setWindowTitle("Agree")
+    msg.setWindowTitle("QCloud - Confirmation")
     msg.setText(message)
     msg.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-    image_path = resource_path("assets/confirm.ico")  # Caminho absoluto da imagem
+    image_path = resource_path("assets/confirm.ico")
     icon = QtGui.QIcon(image_path)
     msg.setIconPixmap(icon.pixmap(QtCore.QSize(64, 64)))
     buttons = msg.buttons()
+
+    msg.setDefaultButton(QtWidgets.QMessageBox.Yes)
+
     for button in buttons:
         button.setStyleSheet("QPushButton { background-color: {}; \
                                        border-radius: 8px; \

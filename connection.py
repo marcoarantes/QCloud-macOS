@@ -1,6 +1,6 @@
 import config
 from PySide6 import QtWidgets
-from QlikAPI import create_connection
+from functions import create_connection
 from createwidgets import exp_textbox, exp_label,  exp_btn_next
 from alertmessage import error_message, success_message, confirm_dialog
 from publish import publish_app_task
@@ -35,11 +35,11 @@ class ConnectionScreen(QtWidgets.QWidget):
 
         self.serverip_label = exp_label(self, "Server")
         self.serverip_textbox = exp_textbox(self)
-        self.serverip_textbox.setText("34.95.163.64")
+        self.serverip_textbox.setText(f"{config.ip_default}")
 
         self.serverport_label = exp_label(self, "Port")
         self.serverport_textbox = exp_textbox(self)
-        self.serverport_textbox.setText("5432")
+        self.serverport_textbox.setText(f"{config.port_default}")
 
         self.btn_createconnection = exp_btn_next(self, "Create Connection")
         self.btn_createconnection.clicked.connect(self.callback)
@@ -54,7 +54,6 @@ class ConnectionScreen(QtWidgets.QWidget):
                 self.connection_check_response(response)
 
     def connection_check_response(self, response):
-            status_description = config.get_status_description(response.status_code)
             if response and response.status_code == 201:
                 success_message(self, f"Connections-{self.connection_textbox.text()}-created".replace("-", "\n"))
                 publish_app_task(self, self.main_window, self.tenantid, self.spaceid, self.spacename)
