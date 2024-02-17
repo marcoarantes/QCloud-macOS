@@ -41,17 +41,17 @@ def exp_combobox(self, options):
 def exp_btn_back(self, placeholder):
     btn_default = QtWidgets.QPushButton(placeholder)
     btn_default.setStyleSheet("""
-            QPushButton {
-                background-color: #2196F3;
-                color: #ffffff;
-                border: 2px solid #2196F3;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0b7dda;
-            }
-            """)
+                QPushButton {
+                    background-color: #dfdfdf;
+                    color: black;
+                    border-radius: 8px; 
+                    border: 1px; padding: 6px 12px; 
+                    font-size: 12px; min-width: 100px; 
+                    } 
+                QPushButton:hover { 
+                    background-color: #f1f1f1; 
+                    }
+                """)
     self.layout.addWidget(btn_default)
     return btn_default
 
@@ -60,14 +60,14 @@ def exp_btn_next(self, placeholder):
     btn_next = QtWidgets.QPushButton(placeholder)
     btn_next.setStyleSheet("""
             QPushButton {
-                background-color: #4CAF50;
-                color: #ffffff;
-                border: 2px solid #4CAF50;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #45a049;
+                background-color: #FF8C00;
+                color: white;
+                border-radius: 8px; 
+                border: 1px; padding: 6px 12px; 
+                font-size: 12px; min-width: 100px; 
+                } 
+            QPushButton:hover { 
+                background-color: #fd9d00; 
             }
             """)
     self.layout.addWidget(btn_next)

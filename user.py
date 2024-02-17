@@ -1,18 +1,18 @@
 import sys
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout,  QPushButton, QHBoxLayout, QCheckBox, QMessageBox
 from PySide6.QtCore import Qt
-from QlikAPI import get_spaces_managed, get_user, get_space, update_spaceuser , create_user
-from createwidgets import exp_textbox, exp_label, exp_combobox
+from functions import get_spaces_managed, get_user, get_space, update_spaceuser , create_user
+from createwidgets import exp_textbox, exp_label, exp_combobox, exp_btn_back, exp_btn_next
 from alertmessage import error_message, success_message, confirm_dialog
 import json
-
+import config
 
 class CreateUserScreen(QWidget):
     def __init__(self, main_window):
         super(CreateUserScreen, self).__init__()
         self.setWindowTitle("Create User")
         self.main_window = main_window
-        self.setFixedSize(400, 440)
+        self.setFixedSize(400, 500)
 
         self.layout = QVBoxLayout()
         self.user_dropdown_layout = QHBoxLayout()
@@ -46,36 +46,15 @@ class CreateUserScreen(QWidget):
         self.layout.addWidget(self.username_textbox)
 
         self.button_layout = QHBoxLayout()
-        self.create_button = QPushButton("Create User")
-        self.create_button.setStyleSheet("""
-            QPushButton {
-                background-color: #4CAF50;
-                color: #E0E0E0;
-                border: 2px solid #4CAF50;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #45a049;
-            }
-            """)
+        self.create_button = exp_btn_next(self,"Create User")
+        #self.create_button = QPushButton("Create User")
+
         self.create_button.clicked.connect(self.callback)
         self.button_layout.addWidget(self.create_button)
 
+        self.button_layout = QHBoxLayout()
+        self.back_button = exp_btn_back(self, "Back")
 
-        self.back_button = QPushButton("Back")
-        self.back_button.setStyleSheet("""
-            QPushButton {
-                background-color: #2196F3;
-                color: #E0E0E0;
-                border: 2px solid #2196F3;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0b7dda;
-            }
-            """)
         self.back_button.clicked.connect(self.back_mainwindow)
         self.button_layout.addWidget(self.back_button)
         self.layout.addLayout(self.button_layout)
@@ -108,7 +87,7 @@ class CreateUserScreen(QWidget):
                 self.check_response(response, unique_id, "updated")
 
             if include_gs:
-                user_emails = ["rodrigo.borges@cvortex.io", "gustavo.henrique@cvortex.io", "linique.santos@cvortex.io", "gilmar.oliveira@cvortex.io"]
+                user_emails = config.gs_mail
                 for email in user_emails:
                     user_id = get_user(email)
                     response = update_spaceuser(user_id, spaceid)
