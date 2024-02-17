@@ -1,6 +1,6 @@
 import sys
 from PySide6 import QtWidgets, QtGui, QtCore
-from QlikAPI import resource_path
+from functions import resource_path
 
 
 def confirm_dialog(self, message):

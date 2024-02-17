@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette, QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QLabel, QHBoxLayout
-from QlikAPI import resource_path
+from functions import resource_path
 import sys
 import space
 import user

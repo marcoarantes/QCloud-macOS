@@ -1,7 +1,7 @@
 import config
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QMessageBox
-from QlikAPI import  get_webintegrations, create_contentpolicy
+from functions import  get_webintegrations, create_contentpolicy
 from createwidgets import exp_textbox, exp_label,exp_btn_next
 from alertmessage import error_message, success_message, confirm_dialog
 from user import CreateUserScreen
@@ -40,12 +40,10 @@ class WebIntegrationScreen(QtWidgets.QWidget):
             self.check_response(response, 'webintegration')
             response = create_contentpolicy(self.customer_policy_textbox, self.url_policy_textbox, self)
             self.check_response(response, 'create policies')
-
+            self.next_screen()
     def check_response(self, response, method):
-        status_description = config.get_status_description(response.status_code)
         if response and response.status_code == 201 or response.status_code == 204:
             success_message(self, f"{method}-{self.customer_policy_textbox}-updated...".replace("-", "\n"))
-            self.next_screen()
         else:
             response_json = response.json()
             response_content = response.content

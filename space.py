@@ -1,6 +1,6 @@
 import config
 from PySide6 import QtWidgets, QtCore, QtGui
-from QlikAPI import create_space
+from functions import create_space
 from createwidgets import exp_textbox, exp_label, exp_combobox, exp_btn_back, exp_btn_next
 from alertmessage import error_message, success_message, confirm_dialog
 from connection import ConnectionScreen
@@ -47,7 +47,6 @@ class SpaceScreen(QtWidgets.QWidget):
             self.check_response(response)
 
     def check_response(self, response):
-        status_description = config.get_status_description(response.status_code)
         if response and response.status_code == 201 or response.status_code == 204:
             response_json = response.json()
             self.spaceID = response_json.get("id")
