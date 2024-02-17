@@ -1,3 +1,0 @@
-([('QCloud',
-   '/Users/mtoarantes/PycharmProjects/QCloud/dist/QCloud',
-   'EXECUTABLE')],)
