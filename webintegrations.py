@@ -1,7 +1,9 @@
+from PySide6.QtGui import QIcon
+
 import config
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtGui
 from PySide6.QtWidgets import QMessageBox
-from functions import  get_webintegrations, create_contentpolicy
+from functions import get_webintegrations, create_contentpolicy, resource_path
 from createwidgets import exp_textbox, exp_label,exp_btn_next
 from alertmessage import error_message, success_message, confirm_dialog
 from user import CreateUserScreen
@@ -13,13 +15,13 @@ class WebIntegrationScreen(QtWidgets.QWidget):
         self.main_window = main_window
         self.spacename = spacename
         self.tenantid = tenantid
-
         self.layout = QtWidgets.QVBoxLayout(self)
-
         self.conn_screen = QtWidgets.QWidget()
         self.setWindowTitle("Connections")
         self.setFixedSize(600, 400)
-
+        image_path = resource_path("assets/QCloud.ico")
+        icon = QtGui.QIcon(image_path)
+        self.setWindowIcon(QIcon(icon))
         self.customer_policy_label = exp_label(self, "Customer Policy")
         self.customer_policy_textbox = exp_textbox(self)
         self.customer_policy_textbox.setText(f"{self.spacename}")
@@ -48,7 +50,6 @@ class WebIntegrationScreen(QtWidgets.QWidget):
             response_json = response.json()
             response_content = response.content
             retorno_dict = json.loads(response_content)
-            print(response_content)
             detail = retorno_dict['detail']
             error_message(self, f"{self.customer_policy_textbox}-{detail}".replace("-", "\n"))
 

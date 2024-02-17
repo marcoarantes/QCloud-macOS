@@ -28,3 +28,11 @@ gs_mail = [
     "linique.santos@cvortex.io",
     "gilmar.oliveira@cvortex.io"
     ]
+
+### ------------ Users Configs --------------
+### - ThemeLight
+color_themelight = "#F7F8FA"
+color_onhover = "#FF8C00"
+color_onhoverlight = "#FF8C00"
+color_themedark = "#313131"
+color_onhoverdark = "#FF8C00"

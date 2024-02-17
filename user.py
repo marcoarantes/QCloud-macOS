@@ -1,8 +1,11 @@
 import sys
+
+from PySide6 import QtGui
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout,  QPushButton, QHBoxLayout, QCheckBox, QMessageBox
 from PySide6.QtCore import Qt
-from functions import get_spaces_managed, get_user, get_space, update_spaceuser , create_user
-from createwidgets import exp_textbox, exp_label, exp_combobox, exp_btn_back, exp_btn_next
+from functions import get_spaces_managed, get_user, get_space, update_spaceuser, create_user, resource_path
+from createwidgets import exp_textbox, exp_label, exp_combobox, exp_btn_back, exp_btn_next, exp_checkbox
 from alertmessage import error_message, success_message, confirm_dialog
 import json
 import config
@@ -12,52 +15,27 @@ class CreateUserScreen(QWidget):
         super(CreateUserScreen, self).__init__()
         self.setWindowTitle("Create User")
         self.main_window = main_window
-        self.setFixedSize(400, 500)
+        self.setFixedSize(400, 400)
+        image_path = resource_path("assets/QCloud.ico")
+        icon = QtGui.QIcon(image_path)
+        self.setWindowIcon(QIcon(icon))
 
-        self.layout = QVBoxLayout()
-        self.user_dropdown_layout = QHBoxLayout()
+        self.layout = QVBoxLayout(self)
         self.space_label = exp_label(self, "Space")
-        self.user_dropdown_layout.addWidget(self.space_label)
-
         self.space_dropdown = exp_combobox(self, "[1,2]")
         self.space_dropdown.setEditable(True)
         self.space_dropdown.lineEdit().setFocus()
-        self.user_dropdown_layout.addWidget(self.space_dropdown)
-
-        self.checkbox_layout = QHBoxLayout()
-        self.include_gs_checkbox = QCheckBox("Include GS")
-
-        self.checkbox_layout.addWidget(self.include_gs_checkbox)
-        self.layout.addLayout(self.checkbox_layout)
-        self.layout.addLayout(self.user_dropdown_layout)
-
+        self.include_gs_checkbox = exp_checkbox(self,"Include GS")
         self.uniqueid_label = exp_label(self,"Unique User ID")
-        self.layout.addWidget(self.uniqueid_label)
-
         self.uniqueid_textbox = exp_textbox(self)
         self.uniqueid_textbox.setPlaceholderText("Unique ID")
-        self.layout.addWidget(self.uniqueid_textbox)
-
         self.username_label = exp_label(self,"Name")
-        self.layout.addWidget(self.username_label)
-
         self.username_textbox = exp_textbox(self)
         self.username_textbox.setPlaceholderText("Name user without spaces")
-        self.layout.addWidget(self.username_textbox)
-
-        self.button_layout = QHBoxLayout()
         self.create_button = exp_btn_next(self,"Create User")
-        #self.create_button = QPushButton("Create User")
-
         self.create_button.clicked.connect(self.callback)
-        self.button_layout.addWidget(self.create_button)
-
-        self.button_layout = QHBoxLayout()
         self.back_button = exp_btn_back(self, "Back")
-
         self.back_button.clicked.connect(self.back_mainwindow)
-        self.button_layout.addWidget(self.back_button)
-        self.layout.addLayout(self.button_layout)
         self.space_dropdown.clear()
         self.setLayout(self.layout)
         self.populate_user_dropdown()

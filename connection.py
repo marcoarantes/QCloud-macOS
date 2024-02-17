@@ -1,6 +1,8 @@
+from PySide6.QtGui import QIcon
+
 import config
-from PySide6 import QtWidgets
-from functions import create_connection
+from PySide6 import QtWidgets, QtGui
+from functions import create_connection, resource_path
 from createwidgets import exp_textbox, exp_label,  exp_btn_next
 from alertmessage import error_message, success_message, confirm_dialog
 from publish import publish_app_task
@@ -20,6 +22,9 @@ class ConnectionScreen(QtWidgets.QWidget):
         self.conn_screen = QtWidgets.QWidget()
         self.setWindowTitle("Connections")
         self.setFixedSize(600, 400)
+        image_path = resource_path("assets/QCloud.ico")
+        icon = QtGui.QIcon(image_path)
+        self.setWindowIcon(QIcon(icon))
 
         self.connection_label = exp_label(self, "Connection Name")
         self.connection_textbox = exp_textbox(self)

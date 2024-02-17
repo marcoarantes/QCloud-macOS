@@ -1,9 +1,11 @@
+from PySide6.QtGui import QIcon
 import config
 from PySide6 import QtWidgets, QtCore, QtGui
 from functions import create_space
 from createwidgets import exp_textbox, exp_label, exp_combobox, exp_btn_back, exp_btn_next
 from alertmessage import error_message, success_message, confirm_dialog
 from connection import ConnectionScreen
+from functions import resource_path
 import json
 from PySide6.QtCore import Qt
 import string
@@ -19,6 +21,9 @@ class SpaceScreen(QtWidgets.QWidget):
         self.space_screen = QtWidgets.QWidget()
         self.setWindowTitle("Spaces")
         self.setFixedSize(400, 300)
+        image_path = resource_path("assets/QCloud.ico")
+        icon = QtGui.QIcon(image_path)
+        self.setWindowIcon(QIcon(icon))
 
         self.space_label = exp_label(self, "Space")
         self.space_textbox = exp_textbox(self)

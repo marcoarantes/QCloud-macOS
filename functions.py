@@ -150,7 +150,6 @@ def pacth_webintegrations(tenantID, response_Webname, response_lista, urlPolicy,
     response_code = response.status_code
     response_desc = get_status_description(response_code)
     print("Updated list of webs...", response, '-', response_desc)
-    print(response)
     return response
 
 

@@ -72,3 +72,8 @@ def exp_btn_next(self, placeholder):
             """)
     self.layout.addWidget(btn_next)
     return btn_next
+
+def exp_checkbox(self, placeholder):
+    checkbox = QtWidgets.QCheckBox(placeholder)
+    self.layout.addWidget(checkbox)
+    return checkbox
