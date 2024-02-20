@@ -72,6 +72,7 @@ class CreateUserScreen(QWidget):
                     self.check_response(response, email, "updated")
             self.uniqueid_textbox.clear()
             self.username_textbox.clear()
+            self.include_gs_checkbox.setChecked(False)
 
             if not include_gs and not username and not unique_id:
                 error_message(self, 'Input a user or check include GS')

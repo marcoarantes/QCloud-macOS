@@ -1,38 +1,51 @@
+import configparser
+import os
+import sys
+
 ### ------------ Default Configs --------------
 BASE_URL = "https://zv37sxsjfgn7hyt.us.qlikcloud.com/api/v1"
 HEADERS = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer eyJhbGciOiJFUzM4NCIsImtpZCI6Ijk4MWI1MGZkLWFjZjgtNDU2ZS04MTE2LWQwOWJiY2ViN2VjZiIsInR5cCI6IkpXVCJ9.eyJzdWJUeXBlIjoidXNlciIsInRlbmFudElkIjoiN3Zqbk02UHQydXRmUlhsR2hnUVM4WFBWTTlKb2VlY3kiLCJqdGkiOiI5ODFiNTBmZC1hY2Y4LTQ1NmUtODExNi1kMDliYmNlYjdlY2YiLCJhdWQiOiJxbGlrLmFwaSIsImlzcyI6InFsaWsuYXBpL2FwaS1rZXlzIiwic3ViIjoiNjNjODQ1NDIwOGY2OThiMGE3NDE0YWVhIn0.dzFgNoL7pnF_TkkGWswr_53ZSituRqpmc1cVnzA0Exgr8_nUSTT8l8dIf_SNs1SRXkCbnpHhaEuFlfSD_XfMxiAkEsxgC_v6rgDDdJhWWP2wbxScC2FxxS_zw1aMPt9h'
 }
-### ------------ Connection Configs --------------
-ip_default =  "34.95.163.64"
-port_default = "5432"
-db_default = "6230f2f5bd3a69548491bc37"
+
+
+def resource_path(relative_path):
+   try:
+       base_path = sys._MEIPASS
+   except Exception:
+       base_path = os.path.abspath(".")
+
+   return os.path.join(base_path, relative_path)
+
+
+ini_file = resource_path("config.ini")
+config = configparser.ConfigParser()
+config.read(ini_file)
+
+### ------------ Database Configs --------------
+port_default = config['Database']['port_default']
+ip_default = config['Database']['ip_default']
+db_default = config['Database']['db_default']
 
 ### ------------ Publish Apps Configs --------------
-ExtractApp = "05731beb-9f3c-40aa-86fa-1e7aba7f31af"
-TransformApp = "2bf225fd-2e04-434d-b3e1-18bbf97bbe2f"
-AnalyticsApp = "d72a1d30-e9fa-4338-b4a2-349fd7526e42"
+ExtractApp = config['Publish']['ExtractApp']
+TransformApp = config['Publish']['TransformApp']
+AnalyticsApp = config['Publish']['AnalyticsApp']
 
 ### ------------ Publish Tasks Configs --------------
-freq = "HOURLY"
-interval = 1
-ExtractByMinute = "00"
-TransformByMinute = "15"
-AnalyticsByMinute = "20"
+freq = config['Task']['freq']
+interval = config['Task']['interval']
+ExtractByMinute = config['Task']['ExtractByMinute']
+TransformByMinute = config['Task']['ExtractByMinute']
+AnalyticsByMinute = config['Task']['ExtractByMinute']
 
 ### ------------ Users Configs --------------
-gs_mail = [
-    "rodrigo.borges@cvortex.io",
-    "gustavo.henrique@cvortex.io",
-    "linique.santos@cvortex.io",
-    "gilmar.oliveira@cvortex.io"
-    ]
+gs_mail = config['User']['gs_mail'].split(',')
 
 ### ------------ Users Configs --------------
 ### - ThemeLight
-color_themelight = "#F7F8FA"
-color_onhover = "#FF8C00"
-color_onhoverlight = "#FF8C00"
-color_themedark = "#313131"
-color_onhoverdark = "#FF8C00"
+color_themelight = config['Theme']['color_themelight']
+color_onhover = config['Theme']['color_onhover']
+color_themedark = config['Theme']['color_themedark']
+color_onhoverdark = config['Theme']['color_onhoverdark']
