@@ -1,3 +1,4 @@
+import psycopg2
 import configparser
 import os
 import sys
@@ -8,44 +9,58 @@ HEADERS = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer eyJhbGciOiJFUzM4NCIsImtpZCI6Ijk4MWI1MGZkLWFjZjgtNDU2ZS04MTE2LWQwOWJiY2ViN2VjZiIsInR5cCI6IkpXVCJ9.eyJzdWJUeXBlIjoidXNlciIsInRlbmFudElkIjoiN3Zqbk02UHQydXRmUlhsR2hnUVM4WFBWTTlKb2VlY3kiLCJqdGkiOiI5ODFiNTBmZC1hY2Y4LTQ1NmUtODExNi1kMDliYmNlYjdlY2YiLCJhdWQiOiJxbGlrLmFwaSIsImlzcyI6InFsaWsuYXBpL2FwaS1rZXlzIiwic3ViIjoiNjNjODQ1NDIwOGY2OThiMGE3NDE0YWVhIn0.dzFgNoL7pnF_TkkGWswr_53ZSituRqpmc1cVnzA0Exgr8_nUSTT8l8dIf_SNs1SRXkCbnpHhaEuFlfSD_XfMxiAkEsxgC_v6rgDDdJhWWP2wbxScC2FxxS_zw1aMPt9h'
 }
+try:
+    # Conectar ao banco de dados
+    conn = psycopg2.connect(
+        dbname="productanalytics",
+        user="usr_qlik",
+        password="p_egO$U#9A93aTl",
+        host="34.95.231.8"
+    )
 
+    cursor = conn.cursor()
 
-def resource_path(relative_path):
-   try:
-       base_path = sys._MEIPASS
-   except Exception:
-       base_path = os.path.abspath(".")
+    # Executar a consulta SQL
+    cursor.execute("SELECT id, \"type\", value FROM public.tb_paramns_config")
 
-   return os.path.join(base_path, relative_path)
+    # Criar um dicionário para armazenar os parâmetros
+    parametros = {}
 
+    # Preencher o dicionário com os parâmetros da consulta
+    for row in cursor.fetchall():
+        parametro = row[1]
+        valor = row[2]
+        parametros[parametro] = valor
 
-ini_file = resource_path("config.ini")
-config = configparser.ConfigParser()
-config.read(ini_file)
+    # Exibir os parâmetros salvos no dicionário
+    print("Parâmetros disponíveis:")
+    for parametro, valor in parametros.items():
+        print(f"{parametro}: {valor}")
 
-### ------------ Database Configs --------------
-port_default = config['Database']['port_default']
-ip_default = config['Database']['ip_default']
-db_default = config['Database']['db_default']
+    # Agora você pode acessar os parâmetros como variáveis no dicionário 'parametros'
+    ExtractApp = parametros['ExtractApp']
+    TransformApp = parametros['TransformApp']
+    AnalyticsApp = parametros['AnalyticsApp']
+    freq = parametros['freq']
+    interval = parametros['interval']
+    ExtractByMinute = parametros['ExtractByMinute']
+    TransformByMinute = parametros['TransformByMinute']
+    AnalyticsByMinute = parametros['AnalyticsByMinute']
+    color_themelight = parametros['color_themelight']
+    color_onhover = parametros['color_onhover']
+    color_onhoverlight = parametros['color_onhoverlight']
+    color_themedark = parametros['color_themedark']
+    color_onhoverdark = parametros['color_onhoverdark']
+    ip_default = parametros['ip_default']
+    port_default = parametros['port_default']
+    db_default = parametros['db_default']
+    print("Status da conexão: Conexão bem-sucedida")
 
-### ------------ Publish Apps Configs --------------
-ExtractApp = config['Publish']['ExtractApp']
-TransformApp = config['Publish']['TransformApp']
-AnalyticsApp = config['Publish']['AnalyticsApp']
-
-### ------------ Publish Tasks Configs --------------
-freq = config['Task']['freq']
-interval = config['Task']['interval']
-ExtractByMinute = config['Task']['ExtractByMinute']
-TransformByMinute = config['Task']['ExtractByMinute']
-AnalyticsByMinute = config['Task']['ExtractByMinute']
-
-### ------------ Users Configs --------------
-gs_mail = config['User']['gs_mail'].split(',')
-
-### ------------ Users Configs --------------
-### - ThemeLight
-color_themelight = config['Theme']['color_themelight']
-color_onhover = config['Theme']['color_onhover']
-color_themedark = config['Theme']['color_themedark']
-color_onhoverdark = config['Theme']['color_onhoverdark']
+    cursor.execute("SELECT email FROM tb_service_manager")
+    gs_mail = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    conn.close()
+    print(gs_mail)
+except (Exception, psycopg2.Error) as error:
+    print("Status da conexão: Falha ao conectar ao banco de dados")
+    print(error)
